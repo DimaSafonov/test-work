@@ -23,7 +23,7 @@ let start = document.getElementById('start'),
     depositAmount = document.querySelector('.deposit-amount'),
     depositPercent = document.querySelector('.deposit-percent'),
     targetAmount = document.querySelector('.target-amount'),
-    incomeItem = document.querySelectorAll('.income-items'),
+    incomeItems = document.querySelectorAll('.income-items'),
     periodSelect = document.querySelector('.period-select');
 
 
@@ -92,11 +92,13 @@ let start = document.getElementById('start'),
       },
 
       getIncome: function() {
-        if(confirm('Есть ли у вас дополнительный источник заработка?')) {
-          let itemIncome = prompt('Какой?', "Танцию");
-          let cashIncome = prompt('Сколько в месяц зарабатываешь на этом?', 10000);
-          appData.income[itemIncome] = cashIncome;
-        }
+        incomeItems.forEach(function(item) {
+          let itemIncome = item.querySelector('.income-title').value;
+          let cashIncome = item.querySelector('.income-amount').value;
+          if(itemIncome !== '' && cashIncome !== '') {
+            appData.income[itemIncome] = cashIncome;
+          }         
+        });
 
         for(let key in appData.income) {
           appData.incomeMonth += +appData.income[key];
