@@ -123,12 +123,12 @@ let start = document.getElementById('start'),
           }
         });
       },
-      // asking: function(){
-      //   let  addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', "car, food");
-      //      addExpenses.toLowerCase().split(' ,');
-      //     appData.deposit = confirm('Есть ли у вас депозит в банке?');
-          
-      // },
+      periodSelect: function () {
+        periodAmount.innerHTML = periodSelect.value;
+    },
+    calcPeriod: function () {
+        return appData.budgetMonth * periodSelect.value;
+    },
 
        getExpensesMonth : function () {
         for(let item in appData.expenses){
@@ -165,6 +165,7 @@ let start = document.getElementById('start'),
           
       };
 
+      periodSelect.addEventListener('input', appData.periodSelect);
       start.addEventListener('click', appData.start);
 
       expensesPlus.addEventListener('click', appData.addExpensesBlock);
