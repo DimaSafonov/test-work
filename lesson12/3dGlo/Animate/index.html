@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>requestAnimationFrame</title>
+</head>
+<body>
+  <div class="wrap">
+  <h1>Всплывающие окна.</h1>
+  <h3>requestAnimationFrame</h3>
+	<div class="btn-box">
+		<!-- копки открытия первого окна -->
+		<button type="button" class="btn btn-default" data-modal="modal_1">Показать pop-up 1</button>
+		<button type="button" class="btn btn-default" data-modal="modal_1">Показать pop-up 1</button>
+		<!-- копки открытия второго окна -->
+		<button type="button" class="btn btn-success" data-modal="modal_2">Показать pop-up 2</button>
+		<button type="button" class="btn btn-success" data-modal="modal_2">Показать pop-up 2</button>
+	</div>
+	<div class="overlay" data-close=""></div>
+
+	<div id="modal_1" class="dlg-modal">
+		<span class="closer" data-close=""></span>
+		<h3>Всплывающее окно 1</h3>
+	</div>
+	<div id="modal_2" class="dlg-modal">
+		<span class="closer" data-close=""></span>
+		<h3>Всплывающее окно 2</h3>
+	</div>
+</div>
+<div class="modal-outer">
+	<span class="closer" data-close=""></span>
+	<div id="modal_1" class="dlg-modal">
+		<h3>Всплывающее окно 1</h3>
+	</div>
+ 
+	<div id="modal_2" class="dlg-modal">
+		<h3>Всплывающее окно 2</h3>
+	</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+

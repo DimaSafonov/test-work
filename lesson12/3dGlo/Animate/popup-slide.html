@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Всплывающие окна</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&amp;subset=cyrillic" rel="stylesheet">
+<link href="popup.style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="wrap">
+	<h1>Всплывающие окна.</h1>
+
+	<div class="btn-box">
+		<h2>Анимация CSS3 slideInDown и slideOutUp.</h2>
+		<button type="button" class="btn btn-default" data-modal="modal_1">Показать popup 1</button>
+		<button type="button" class="btn btn-default" data-modal="modal_1">Показать popup 1</button>
+		<button type="button" class="btn btn-success" data-modal="modal_2">Показать popup 2</button>
+		<button type="button" class="btn btn-success" data-modal="modal_2">Показать popup 2</button>
+	</div>
+
+	<div class="overlay" data-close=""></div>
+
+	<div id="modal_1" class="dlg-modal dlg-modal-slide">
+		<span class="closer" data-close=""></span>
+		<h3>Всплывающее окно 1</h3>
+	</div>
+	<div id="modal_2" class="dlg-modal dlg-modal-slide">
+		<span class="closer" data-close=""></span>
+		<h3>Всплывающее окно 2</h3>
+	</div>
+</div>
+<script>var typeAnimate = 'slide';</script>
+<script src="popup-css3.function.js"></script>
+</body>
+</html>
