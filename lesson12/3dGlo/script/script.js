@@ -42,37 +42,40 @@ window.addEventListener('DOMContentLoaded', () => {
       setInterval(countTimer, 1000, '31nov 2019');
   
   //Menu
-  const toggleMenu = () => {
-  
-    const btnMenu = document.querySelector('.menu'),
-        menu = document.querySelector('menu'),
-        closeBtn = document.querySelector('.close-btn'),
-        menuItems = menu.querySelectorAll('ul>li');
-    let menuInterval;
-    const handlerAnimate = () => {
-      menuInterval = requestAnimationFrame(handlerAnimate);
+
+  const menu = document.querySelector('menu'),
+  btnMenu = document.querySelector('.menu'),
+  bodyM = document.querySelector('body'),
+  closeBtn = document.querySelector('.close-btn'),
+  menuItems = menu.querySelectorAll('ul>li');
+
+  const sandwichMenu = (e) => {
+    let target = e.target;
+    const handlerMenu = () => {
       if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
         menu.style.transform = 'translate(0)';
-      }else if(menu.style.transform){
-         menu.style.transform ='translate(-100%)';
-         
-      }else{cancelAnimationFrame(handlerAnimate);}
-      
+      }else {
+        menu.style.transform ='translate(-100%)';
+      }
       // menu.classList.toggle('active-menu');
     };
-  
-    btnMenu.addEventListener('click', handlerAnimate);
-    closeBtn.addEventListener('click', handlerAnimate);
-    // for(let i = 0; i < menuItems.length; i++) {
-    //   menuItems[i].addEventListener('click', handlerMenu);
-    // }
-    menuItems.forEach((elem) => {
-      elem.addEventListener('click', handlerAnimate);
-    });
-  };
-  
-  toggleMenu();
-  
+
+    console.log('target: ', target);
+    if(e.target.classList.contains('menu')) {
+      handlerMenu();
+    }
+    if(e.target.classList.contains('close-btn')) {
+      handlerMenu();
+    }
+    if(e.target.matches('li > a')) {
+      handlerMenu();
+    }
+    
+  }
+
+  bodyM.addEventListener('click', sandwichMenu);
+
+
   //popup
   
   const togglePopUp = () => {
@@ -139,7 +142,7 @@ const tabs = () => {
 
     tabHeader.addEventListener('click', (event) => {
       let target = event.target;
-      console.log('target: ', target);
+      
       while(target !== tabHeader) {
         
         if(target.classList.contains('service-header-tab')) {
