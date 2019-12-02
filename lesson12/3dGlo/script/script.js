@@ -76,21 +76,86 @@ window.addEventListener('DOMContentLoaded', () => {
   //popup
   
   const togglePopUp = () => {
-    const popup = document.querySelector('.popup'),
-        popupBtn = document.querySelectorAll('.popup-btn'),
-        popUpClose = document.querySelector('.popup-close');
+    const popupContent = document.querySelector('.popup-content'),
+      popup = document.querySelector('.popup'),
+      popupBtn = document.querySelectorAll('.popup-btn');
+     let count = 0;
   
-    popupBtn.forEach((elem) => {
-      elem.addEventListener('click', () => {
-        popup.style.display = 'block';
+      popupBtn.forEach((elem) => {
+        elem.addEventListener('click', () => {
+          popup.style.display = 'block';
+  
+          if(document.documentElement.clientWidth > 768) {
+            let popUpAnimate;
+  
+            const addLeft = () => {
+              popupContent.style.left = 10 + '%';
+              count++;
+              popupContent.style.left = count + '%';
+              if(count < 45) {
+                requestAnimationFrame(addLeft, 5);
+              }else{
+                cancelAnimationFrame(2000);
+              }
+            };
+            popUpAnimate = requestAnimationFrame(addLeft);
+          }
+        });
       });
-    });
+      popup.addEventListener('click', (event) => {
+        let target = event.target;
   
-    popUpClose.addEventListener('click', () => {
-      popup.style.display = 'none';
-    })
+        if(target.classList.contains('popup-close')) {
+          popup.style.display = 'none';
+          count = 0;
+        }else {
+          target = target.closest('.popup-content');
+          if(!target) {
+            popup.style.display = 'none';
+            count = 0;
+          }
+        }
+      });
   };
-  
-  togglePopUp();
+    togglePopUp();
+
+    // ТАБЫ
+const tabs = () => {
+  const tabHeader = document.querySelector('.service-header'),
+    tab = tabHeader.querySelectorAll('.service-header-tab'),
+    tabContent = document.querySelectorAll('.service-tab');
+
+    const toggleTabContent = (index) => {
+      for(let i = 0; i < tabContent.length; i++) {
+        if(index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        }else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    };
+
+    tabHeader.addEventListener('click', (event) => {
+      let target = event.target;
+      console.log('target: ', target);
+      while(target !== tabHeader) {
+        
+        if(target.classList.contains('service-header-tab')) {
+        tab.forEach((item, i) => {
+          if(item === target) {
+            toggleTabContent(i);
+          }
+        });
+        return;
+        }
+        target = target.parentNode;
+      }
+      
+    });
+};
+
+tabs();
   
   });
