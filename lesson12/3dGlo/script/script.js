@@ -12,15 +12,15 @@ window.addEventListener('DOMContentLoaded', () => {
           timeRemaining = (dateStop - dateNow) / 1000,
           seconds = Math.floor(timeRemaining % 60),
           minutes = Math.floor(timeRemaining / 60) % 60,
-          hours = Math.floor((timeRemaining / 60 / 60) % 24),
-          days = Math.floor(timeRemaining / 60 / 60 / 24);
+          hours = Math.floor((timeRemaining / 60 / 60) );
+          // days = Math.floor(timeRemaining / 60 / 60 / 24);
           return {timeRemaining, hours, minutes, seconds};   
       }
   
         function updateClock() {
           let timer = getTimeRemaining();
   
-          timerHourse.textContent = (`0${timer.hours}`).slice(-2);
+          timerHourse.textContent = (`0${timer.hours}`).slice(-3);
           timerMinutes.textContent = (`0${timer.minutes}`).slice(-2);
           timerSeconds.textContent = (`0${timer.seconds}`).slice(-2);
   
@@ -39,45 +39,42 @@ window.addEventListener('DOMContentLoaded', () => {
         updateClock();
     }
       
-      setInterval(countTimer, 1000, '31nov 2019');
+      setInterval(countTimer, 1000, '31 dec 2019');
   
   //Menu
-
   const menu = document.querySelector('menu'),
-  btnMenu = document.querySelector('.menu'),
-  bodyM = document.querySelector('body'),
-  closeBtn = document.querySelector('.close-btn'),
-  menuItems = menu.querySelectorAll('ul>li');
-
-  const sandwichMenu = (e) => {
-    let target = e.target;
-    const handlerMenu = () => {
-      if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
-        menu.style.transform = 'translate(0)';
-      }else {
-        menu.style.transform ='translate(-100%)';
-      }
-      // menu.classList.toggle('active-menu');
-    };
-
-    console.log('target: ', target);
-    if(e.target.classList.contains('menu')) {
-      handlerMenu();
-    }
-    if(e.target.classList.contains('close-btn')) {
-      handlerMenu();
-    }
-    if(e.target.matches('li > a')) {
-      handlerMenu();
-    }
-    
-  }
-
-  bodyM.addEventListener('click', sandwichMenu);
-
-
-  //popup
+    btnMenu = document.querySelector('.menu'),
+    bodyM = document.querySelector('body'),
+    closeBtn = document.querySelector('.close-btn'),
+    menuItems = menu.querySelectorAll('ul>li');
   
+    const sandwichMenu = (e) => {
+      let target = e.target;
+      const handlerMenu = () => {
+        if(!menu.style.transform || menu.style.transform === 'translate(-100%)') {
+          menu.style.transform = 'translate(0)';
+        }else {
+          menu.style.transform ='translate(-100%)';
+        }
+        // menu.classList.toggle('active-menu');
+      };
+  
+      
+      if(e.target.closest('.menu')) {
+        handlerMenu();
+      }
+      if(e.target.classList.contains('close-btn')) {
+        handlerMenu();
+      }
+      if(e.target.matches('li > a')) {
+        handlerMenu();
+      }
+      
+    };
+  
+    bodyM.addEventListener('click', sandwichMenu);
+  
+  //popup
   const togglePopUp = () => {
     const popupContent = document.querySelector('.popup-content'),
       popup = document.querySelector('.popup'),
@@ -121,44 +118,76 @@ window.addEventListener('DOMContentLoaded', () => {
       });
   };
     togglePopUp();
-
-    // ТАБЫ
-const tabs = () => {
-  const tabHeader = document.querySelector('.service-header'),
-    tab = tabHeader.querySelectorAll('.service-header-tab'),
-    tabContent = document.querySelectorAll('.service-tab');
-
-    const toggleTabContent = (index) => {
-      for(let i = 0; i < tabContent.length; i++) {
-        if(index === i) {
-          tab[i].classList.add('active');
-          tabContent[i].classList.remove('d-none');
-        }else {
-          tab[i].classList.remove('active');
-          tabContent[i].classList.add('d-none');
-        }
-      }
-    };
-
-    tabHeader.addEventListener('click', (event) => {
-      let target = event.target;
-      
-      while(target !== tabHeader) {
-        
-        if(target.classList.contains('service-header-tab')) {
-        tab.forEach((item, i) => {
-          if(item === target) {
-            toggleTabContent(i);
+  
+  // ТАБЫ
+  const tabs = () => {
+    const tabHeader = document.querySelector('.service-header'),
+      tab = tabHeader.querySelectorAll('.service-header-tab'),
+      tabContent = document.querySelectorAll('.service-tab');
+  
+      const toggleTabContent = (index) => {
+        for(let i = 0; i < tabContent.length; i++) {
+          if(index === i) {
+            tab[i].classList.add('active');
+            tabContent[i].classList.remove('d-none');
+          }else {
+            tab[i].classList.remove('active');
+            tabContent[i].classList.add('d-none');
           }
-        });
-        return;
         }
-        target = target.parentNode;
-      }
-      
-    });
-};
-
-tabs();
+      };
+  
+      tabHeader.addEventListener('click', (event) => {
+        let target = event.target;
+        
+        while(target !== tabHeader) {
+          
+          if(target.classList.contains('service-header-tab')) {
+          tab.forEach((item, i) => {
+            if(item === target) {
+              toggleTabContent(i);
+            }
+          });
+          return;
+          }
+          target = target.parentNode;
+        }
+        
+      });
+  };
+  
+  tabs();
+  
+  // Слайдер
+  
+  const slider = () => {
+    const slide = document.querySelectorAll('.portfolio-item'),
+    btn = document.querySelectorAll('portfolio-btn'),
+    dot = document.querySelectorAll('.dot'),
+    slider = document.querySelector('.portfolio-content');
+  
+    let currentSlide = 0;
+  
+    const autoPlaySlide = () => {
+  
+      slide[currentSlide].classList.remove('portfolio-item-active');
+      currentSlide++;
+      slide[currentSlide].classList.add('portfolio-item-active');
+    };
+  
+    const startSlide = () => {
+  
+    };
+  
+    const stopSlide = () => {
+  
+    };
+  
+  
+  };
+  
+  slider();
   
   });
+ 
+ 
