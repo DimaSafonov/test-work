@@ -26,11 +26,29 @@
 					<div class="companies-hor-item"><img src="images/companies/companies-6.png" alt=""></div>
 					<div class="companies-hor-item"><img src="images/companies/companies-7.png" alt=""></div>
 				</div>
-				
+				<button id="test-left"> < </button>
+				<button id="test-right"> > </button>
 			</div>
 		</div>
 	</section>
 
+</section>
+
+<script src="sliderCarousel.js"></script>
+
+<script>
+	const options = {
+		main: '.companies-wrapper',
+		wrap: '.companies-hor',
+		prev: '#test-left',
+		next: '#test-right',
+		slidesToShow: 4,
+		infinity: true
+	}
+const carousel = new SliderCarousel(options);
+carousel.init();
+
+</script>
 
 </body>
 
