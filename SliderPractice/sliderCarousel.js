@@ -10,6 +10,9 @@ class SliderCarousel{
      slidesToShow = 3,
       position = 0,
     }) {
+      if(!main || !wrap) {
+        console.warn('slider-carusel: Необходимо 2 свойства "main" и "wrap"');
+      }
     this.main = document.querySelector(main);
     this.wrap = document.querySelector(wrap);
     this.slides = document.querySelector(wrap).children;
@@ -25,6 +28,7 @@ class SliderCarousel{
   }
 
   init() {
+
     this.addGloClass();
     this.addStyle();
 
@@ -96,6 +100,39 @@ class SliderCarousel{
   }
 
   addArrow() {
+    this.prev = document.createElement('button');
+    this.next = document.createElement('button');
 
+    this.prev.className = 'glo-slider__pref';
+    this.next.className = 'glo-slider__next';
+
+    this.main.append(this.prev);
+    this.main.append(this.next);
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .glo-slider__pref,
+      .glo-slider__next {
+        margin: 0 10px;
+        border: 20px solid transparent;
+        background: transparent;
+      }
+      .glo-slider__next {
+        border-left-color: #19b5fe;
+      }
+      .glo-slider__pref {
+        border-right-color: #19b5fe;
+      }
+      .glo-slider__pref:hover,
+      .glo-slider__next:hover,
+      .glo-slider__pref:focus,
+      .glo-slider__next:focus {
+        background: transparent;
+        outline: transparent;
+      }
+    `;
+
+    document.head.append(style);
+    
   }
 }
