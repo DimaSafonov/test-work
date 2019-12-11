@@ -159,116 +159,300 @@ window.addEventListener('DOMContentLoaded', () => {
   tabs();
   
   // Слайдер
-  
-  const slider = () => {
-    const slide = document.querySelectorAll('.portfolio-item'),
-    btn = document.querySelectorAll('portfolio-btn'),
-     dot = document.querySelectorAll('.dot'),
-     dots = document.querySelector('.portfolio-dots'),
-     portfolioDots = document.querySelector('.portfolio-dots'),
-    slider = document.querySelector('.portfolio-content');
-  
-    let currentSlide = 0,
-    interval;
-    
-    
-     function addDot() {
-       const newDot = currentSlide;
-    for(let i = 0; i < slide.length-1; i++) {
-     let currentSlide = 1 ;
-     currentSlide += currentSlide + i;
-      console.log(currentSlide);
-    }
-   let dot = document.createElement('li');
-    dot.className = 'dot';
-    dots.append(dot);
-    
-     };
-    
-   addDot();
 
-    const prevSlide = (elem, index, strClass) => {
-      elem[index].classList.remove(strClass);
-    };
-
-    const nextSlide = (elem, index, strClass) => {
-      elem[index].classList.add(strClass);
-    };
-   
-    const autoPlaySlide = () => {
+const slider = () => {
   
-      prevSlide(slide, currentSlide, 'portfolio-item-active');
-      prevSlide(dot, currentSlide, 'dot-active');
-      currentSlide++;
-      if(currentSlide >= slide.length){
-        currentSlide = 0;
-      }
-      nextSlide(slide, currentSlide, 'portfolio-item-active');
-      nextSlide(dot, currentSlide, 'dot-active');
-    };
-  
-    const startSlide = (time = 3000) => {
-     interval = setInterval(autoPlaySlide, time);
-    };
-  
-    const stopSlide = () => {
-      clearInterval(interval);
-    };
+  const slides = document.querySelectorAll('.portfolio-item'),
+  portfolioDots = document.querySelector('.portfolio-dots');
 
-    slider.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      let target = e.target;
-      if(!target.matches('.portfolio-btn, .dot')){
-        return;
+const addDots = () => {
+  for (let i = 0; i < slides.length; i++) {
+      let newDot = document.createElement('li');
+      if (i === 0) {
+          newDot.classList.add('dot');
+          newDot.classList.add('dot-active');
+      } else {
+          newDot.classList.add('dot');
       }
 
-      prevSlide(slide, currentSlide, 'portfolio-item-active');
-      prevSlide(dot, currentSlide, 'dot-active');
+      portfolioDots.append(newDot);
+  }
+};
 
-      if(target.matches('#arrow-right')){
-        currentSlide++;
-      }else if(target.matches('#arrow-left')) {
-        currentSlide--;
-      }else if(target.matches('.dot')) {
-        dot.forEach((elem, index) => {
-          if(elem === target) {
-            currentSlide = index;
-          }
-        });
-      }
+addDots();
 
-      if(currentSlide >= slide.length) {
-        currentSlide = 0;
-      }
-      if(currentSlide < 0) {
-        currentSlide = slide.length -1;
-      }
-      nextSlide(slide, currentSlide, 'portfolio-item-active');
-      nextSlide(dot, currentSlide, 'dot-active');
-      
-    });
+const dot = document.querySelectorAll('.dot'),
+  slider = document.querySelector('.portfolio-content');
 
-    slider.addEventListener('mouseover', (e) => {
-      if(e.target.matches('.portfolio-btn') ||
-      e.target.matches('.dot')) {
-        stopSlide();
-      }
-    });
+let currentSlide = 0,
+  interval;
 
-    slider.addEventListener('mouseout', (e) => {
-      if(e.target.matches('.portfolio-btn') ||
-      e.target.matches('.dot')) {
-        startSlide();
-      }
-    });
-
-    startSlide(1500);
-  
-  
+  const prevSlide = (elem, index, strClass) => {
+    elem[index].classList.remove(strClass);
   };
-  
-  slider();
+
+  const nextSlide = (elem, index, strClass) => {
+    elem[index].classList.add(strClass);
+  };
+ 
+  const autoPlaySlide = () => {
+
+    prevSlide(slides, currentSlide, 'portfolio-item-active');
+    
+    prevSlide(dot, currentSlide, 'dot-active');
+    
+    currentSlide++;
+    if(currentSlide >= slides.length){
+      currentSlide = 0;
+    }
+    nextSlide(slides, currentSlide, 'portfolio-item-active');
+    nextSlide(dot, currentSlide, 'dot-active');
+  };
+
+  const startSlide = (time = 3000) => {
+   interval = setInterval(autoPlaySlide, time);
+  };
+
+  const stopSlide = () => {
+    clearInterval(interval);
+  };
+
+  slider.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    let target = e.target;
+    if(!target.matches('.portfolio-btn, .dot')){
+      return;
+    }
+
+    prevSlide(slides, currentSlide, 'portfolio-item-active');
+    prevSlide(dot, currentSlide, 'dot-active');
+
+    if(target.matches('#arrow-right')){
+      currentSlide++;
+    }else if(target.matches('#arrow-left')) {
+      currentSlide--;
+    }else if(target.matches('.dot')) {
+      dot.forEach((elem, index) => {
+        if(elem === target) {
+          currentSlide = index;
+        }
+      });
+    }
+
+    if(currentSlide >= slides.length) {
+      currentSlide = 0;
+    }
+    if(currentSlide < 0) {
+      currentSlide = slides.length -1;
+    }
+    nextSlide(slides, currentSlide, 'portfolio-item-active');
+    nextSlide(dot, currentSlide, 'dot-active');
+    
+  });
+
+  slider.addEventListener('mouseover', (e) => {
+    if(e.target.matches('.portfolio-btn') ||
+    e.target.matches('.dot')) {
+      stopSlide();
+    }
+  });
+
+  slider.addEventListener('mouseout', (e) => {
+    if(e.target.matches('.portfolio-btn') ||
+    e.target.matches('.dot')) {
+      startSlide();
+    }
+  });
+
+  startSlide(1500);
+
+
+};
+
+slider();
+
+//Наша команда
+
+const replaceImg = () => {
+  const allImg = document.querySelectorAll("img[data-img]");
+  let src;
+  allImg.forEach(item => {
+      item.addEventListener("mouseover", event => {
+          src = event.target.getAttribute("src");
+          event.target.src = event.target.dataset.img;
+      });
+      item.addEventListener("mouseout", event => {
+          event.target.src = src;
+      });
+  });
+};
+replaceImg () ;
+
+//регулярка
+
+const validation = (item) => {
+  let itemAttrName = item.getAttribute('name');
+  item.addEventListener('input', () => {
+   
+    if (item.classList.contains('calc-item')) {
+      item.value = item.value.replace(/[^\d.]/, '');
+    }
+    if (itemAttrName === 'user_name' || itemAttrName === 'user_message') {
+      item.value = item.value.replace(/[^А-Яа-яЁё\s]/, '');
+    }
+    if (itemAttrName === 'user_phone') {
+      item.value = item.value.replace(/[^0-9+]/, '');
+    }
+  });
+};
+
+//калькулятор
+
+const calc = (price = 100) => {
+  const calcBlock = document.querySelector('.calc-block'),
+    calcType = document.querySelector('.calc-type'),
+    calcCount = document.querySelector('.calc-count'),
+    calcSquare = document.querySelector('.calc-square'),
+    calcDay = document.querySelector('.calc-day'),
+    totalValue = document.getElementById('total');
+
+    const countSum = () => {
+      let total = 0,
+        countValue = 1,
+        dayValue = 1;
+
+      const typeValue = calcType.options[calcType.selectedIndex].value,
+           squareValue = +calcSquare.value;
+
+      if(calcCount.value > 1) {
+        countValue += (calcCount.value - 1) / 10;
+      }
+
+      if(calcDay.value && calcDay.value < 5) {
+        dayValue *= 2;
+      }else if(calcDay.value && calcDay.value < 10) {
+        dayValue *= 1.5;
+      }
+           
+      if(typeValue && squareValue) {
+         total = price * typeValue * squareValue * countValue * dayValue;    
+      }      
+
+      totalValue.textContent = total;
+    };
+
+  calcBlock.addEventListener('change', (e) => {
+    const target = e.target;
+
+  //   if(target === calcType || target === calcSquare ||
+  //     target === calcDay || target === calcCount) {
+  //       console.log(2);
+  //     }
+  // });
+  if(target.matches('select') || target.matches('input')) {
+    countSum();
+  }
+
+});
+};
+calc(100);
+
+// send-ajax-form
+
+const formInputs = document.querySelectorAll("form input");
+
+	formInputs.forEach(input => {
+		validation(input);
+	});
+
+	{
+		const forms = document.querySelectorAll('form'),
+			statusMessage = document.createElement('div'),
+			errorMessage = "Что-то пошло не так...",
+			loadMessage = '<img src="images/preloader.gif" alt="preloader">',
+			successMessage = "Спасибо! Мы скоро с Вами свяжемся!";
+
+		statusMessage.style = `font-size: 2rem; color: white`;
+
+		const isValidData = body => {
+			const validArr = [];
+			for (const key in body) {
+				if (body[key].trim() === '') {
+					validArr.push(key);
+				}
+			}
+			const promise = new Promise((resolve, reject) => {
+				if (validArr.length === 0) {
+					resolve(loadMessage);
+				} else {
+					reject(validArr);
+				}
+			});
+			return promise;
+		};
+
+		const postData = body =>
+			new Promise((resolve, reject) => {
+				const request = new XMLHttpRequest();
+
+				request.addEventListener("readystatechange", () => {
+					if (request.readyState !== 4) {
+						return;
+					}
+
+					if (request.status === 200) {
+						resolve(successMessage);
+					} else {
+						reject(errorMessage);
+					}
+				});
+
+				request.open("POST", "./server.php");
+				request.setRequestHeader("Content-Type", "application/json");
+
+				request.send(JSON.stringify(body));
+			});
+
+		forms.forEach(form => {
+			form.addEventListener('submit', event => {
+				event.preventDefault();
+				const target = event.target;
+				target.querySelectorAll(`input`).forEach(item => {
+					item.style = '';
+				});
+
+				form.appendChild(statusMessage);
+
+				const formData = new FormData(form),
+					body = {};
+
+				formData.forEach((val, key) => {
+					body[key] = val;
+				});
+
+				isValidData(body)
+					.then(message => {
+						statusMessage.innerHTML = message;
+						return body;
+					})
+					.then(postData)
+					.then(message => {
+						statusMessage.innerHTML = message;
+						form.reset();
+					})
+					.catch(error => {
+						if (typeof error === 'object') {
+							error.forEach(item => {
+								target.querySelector(`input[name="${item}"]`).style = 'box-shadow: 0 0 20px #f74949;';
+							});
+						} else {
+							statusMessage.innerHTML = error;
+						}
+					});
+			});
+		});
+	}
   
   });
  
