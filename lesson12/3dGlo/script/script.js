@@ -375,44 +375,78 @@ const formInputs = document.querySelectorAll("form input");
 
 		statusMessage.style = `font-size: 2rem; color: white`;
 
-		const isValidData = body => {
-			const validArr = [];
-			for (const key in body) {
-				if (body[key].trim() === '') {
-					validArr.push(key);
-				}
-			}
-			const promise = new Promise((resolve, reject) => {
-				if (validArr.length === 0) {
-					resolve(loadMessage);
-				} else {
-					reject(validArr);
-				}
-			});
-			return promise;
-		};
+		// const isValidData = body => {
+		// 	const validArr = [];
+		// 	for (const key in body) {
+		// 		if (body[key].trim() === '') {
+		// 			validArr.push(key);
+		// 		}
+		// 	}
+		// 	const promise = new Promise((resolve, reject) => {
+		// 		if (validArr.length === 0) {
+		// 			resolve(loadMessage);
+		// 		} else {
+		// 			reject(validArr);
+		// 		}
+		// 	});
+		// 	return promise;
+		// };
 
-		const postData = body =>
-			new Promise((resolve, reject) => {
-				const request = new XMLHttpRequest();
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      form.append(statusMessange);
+      const formData = new FormData(form);
+      let body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      statusMessange.textContent = loadMessange;
 
-				request.addEventListener("readystatechange", () => {
-					if (request.readyState !== 4) {
-						return;
-					}
+      postData(body)
+      .then((response) => {
+        if(response.status !==200){
+          throw new Error('status network not 200');
+        }
+        console.log(response);
+        statusMessange.textContent = successMessange;
+      })
+      .catch((error) => {
+        statusMessange.textContent = errorMessange;
+        console.error(error);
+      });
+  });
 
-					if (request.status === 200) {
-						resolve(successMessage);
-					} else {
-						reject(errorMessage);
-					}
-				});
 
-				request.open("POST", "./server.php");
-				request.setRequestHeader("Content-Type", "application/json");
+      const postData = (body) => {
+        return fetch('./server.php', {
+          method: 'POST',
+          headers: {
+            'Content-Tape': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+      }
 
-				request.send(JSON.stringify(body));
-			});
+			// new Promise((resolve, reject) => {
+			// 	const request = new XMLHttpRequest();
+
+			// 	request.addEventListener("readystatechange", () => {
+			// 		if (request.readyState !== 4) {
+			// 			return;
+			// 		}
+
+			// 		if (request.status === 200) {
+			// 			resolve(successMessage);
+			// 		} else {
+			// 			reject(errorMessage);
+			// 		}
+			// 	});
+
+			// 	request.open("POST", "./server.php");
+			// 	request.setRequestHeader("Content-Type", "application/json");
+
+			// 	request.send(JSON.stringify(body));
+			// });
 
 		forms.forEach(form => {
 			form.addEventListener('submit', event => {
