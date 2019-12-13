@@ -360,99 +360,108 @@ calc(100);
 
 // send-ajax-form
 
-const formInputs = document.querySelectorAll("form input");
+const formInputs = document.querySelectorAll('form input');
+const form = document.getElementById('form');
 
-	formInputs.forEach(input => {
+	formInputs.forEach((input) => {
 		validation(input);
 	});
 
-	{
-		const forms = document.querySelectorAll('form'),
-			statusMessage = document.createElement('div'),
-			errorMessage = "Что-то пошло не так...",
-			loadMessage = '<img src="images/preloader.gif" alt="preloader">',
-			successMessage = "Спасибо! Мы скоро с Вами свяжемся!";
+	const sendForm = () => {
+		const errorMessage = 'Что-то пошло не так...',
+			loadMessage = 'Загрузка...',
+			successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
+			loadMessage2 = '<img src="images/preloader.gif" alt="preloader">';
 
-		statusMessage.style = `font-size: 2rem; color: white`;
+		const forms = document.querySelectorAll('form');
 
-		const isValidData = body => {
-			const validArr = [];
-			for (const key in body) {
-				if (body[key].trim() === '') {
-					validArr.push(key);
-				}
-			}
-			const promise = new Promise((resolve, reject) => {
-				if (validArr.length === 0) {
-					resolve(loadMessage);
-				} else {
-					reject(validArr);
-				}
-			});
-			return promise;
-		};
+		const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size: 2rem';
 
-		const postData = body =>
-			new Promise((resolve, reject) => {
-				const request = new XMLHttpRequest();
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      form.append(statusMessange);
+      const formData = new FormData(form);
+      let body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      
+      postData(body)
+      .then((response) => {
+        if(response.status !==200){
+          throw new Error('status network not 200');
+        }
+        console.log(response);
+        statusMessange.textContent = successMessange;
+      })
+      .catch((error) => {
+        statusMessange.textContent = errorMessange;
+        console.error(error);
+      });
+  });
 
-				request.addEventListener("readystatechange", () => {
-					if (request.readyState !== 4) {
-						return;
-					}
-
-					if (request.status === 200) {
-						resolve(successMessage);
-					} else {
-						reject(errorMessage);
-					}
-				});
-
-				request.open("POST", "./server.php");
-				request.setRequestHeader("Content-Type", "application/json");
-
-				request.send(JSON.stringify(body));
-			});
-
-		forms.forEach(form => {
-			form.addEventListener('submit', event => {
+		forms.forEach((form) => {
+			form.addEventListener('submit', (event) => {
 				event.preventDefault();
-				const target = event.target;
-				target.querySelectorAll(`input`).forEach(item => {
-					item.style = '';
-				});
-
+				event.target.querySelector('input[name="user_phone"]').style = '';
 				form.appendChild(statusMessage);
 
-				const formData = new FormData(form),
-					body = {};
+				const formData = new FormData(form);
+				let body = {};
 
 				formData.forEach((val, key) => {
 					body[key] = val;
 				});
 
-				isValidData(body)
-					.then(message => {
-						statusMessage.innerHTML = message;
-						return body;
-					})
-					.then(postData)
-					.then(message => {
-						statusMessage.innerHTML = message;
-						form.reset();
-					})
-					.catch(error => {
-						if (typeof error === 'object') {
-							error.forEach(item => {
-								target.querySelector(`input[name="${item}"]`).style = 'box-shadow: 0 0 20px #f74949;';
-							});
-						} else {
-							statusMessage.innerHTML = error;
-						}
+				if (isValidUserPhone(body.user_phone)) {
+					statusMessage.innerHTML = loadMessage2;
+
+					postData(body, () => {
+						statusMessage.textContent = successMessage;
+
+					}, (error) => {
+						statusMessage.textContent = errorMessage;
+						console.error(error);
 					});
+					form.reset();
+				} else {
+					event.target.querySelector('input[name="user_phone"]').style = 'box-shadow: 0 0 20px #f74949;';
+					// statusMessage.textContent = `Поле "Номер телефона" заполненно некорректно!`;
+				}
 			});
 		});
-	}
+
+		const isValidUserPhone = number => {
+			const pattern = /^((8|\+7))((\d{3}))[\d]{7}$/;
+			return pattern.test(number);
+		};
+
+		const postData = (body, outputData, errorData) => {
+			const request = new XMLHttpRequest();
+
+			request.addEventListener('readystatechange', () => {
+
+				if (request.readyState !== 4) {
+					return;
+				}
+
+				if (request.status === 200) {
+					outputData();
+				} else {
+					errorData(request.status);
+				}
+
+			});
+
+			request.open('POST', './server.php');
+			request.setRequestHeader('Content-Type', 'application/json');
+
+			request.send(JSON.stringify(body));
+		};
+	};
+
+	sendForm();
   
   });
  
