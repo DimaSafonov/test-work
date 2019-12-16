@@ -25,20 +25,19 @@ function countTimer(deadline) {
 
       if(timer.timeRemaining > 0) {
         setTimeout(updateClock, 1000);
-      }else if(timer.timeRemaining < 0){
+      }else if(timer.timeRemaining <= 0 || timer.timeRemaining === NaN){
         
       timerHourse.textContent = '00';
       timerMinutes.textContent = '00';
       timerSeconds.textContent = '00';
 
-      }else{
-        countTimer(new Date());
       }
-      
+    
     }
     
     updateClock();
 }
-// setInterval(countTimer, 1000, '31 dec 2019');
+// countTimer('20 dec 2019')
+//  setInterval(countTimer, 1000, '');
 
-export default countTimer;
+ export default countTimer;

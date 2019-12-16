@@ -7,9 +7,9 @@ import tabs from './modules/tabs';
 import slider from './modules/slider';
 import replaceImg from './modules/replaceImg';
 import calc from './modules/calc';
-import sendForm from './modules/sendForm';
+import formHandler from './modules/formHandler';
 //Timer
-countTimer('30 dec 2019');
+countTimer('20 dec 2019');
 //Menu
 toggleMenu();
 //popup
@@ -23,4 +23,4 @@ replaceImg () ;
 //калькулятор
 calc(100);
 // send-ajax-form
-sendForm();
+formHandler();
