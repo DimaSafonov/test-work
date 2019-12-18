@@ -16,7 +16,7 @@ import replaceImg from './modules/replaceImg';
 import calc from './modules/calc';
 import formHandler from './modules/formHandler';
 //Timer
-countTimer('20 dec 2019');
+countTimer('31 dec 2019');
 //Menu
 toggleMenu();
 //popup

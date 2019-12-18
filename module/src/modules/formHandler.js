@@ -40,17 +40,19 @@ const formHandler = () => {
 		const errorMessage = 'Что-то пошло не так...',
 			successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
 			loadMessage = '<img src="images/preloader.gif" alt="preloader">';
-
+		let body = {};
 		const statusMessage = document.createElement('div');
-		statusMessage.style.cssText = 'font-size: 2rem; color: white;';
+		statusMessage.style.cssText = 'font-size: 2rem;';
 
-		const postData = formData => fetch('./server.php', {
+		function postData (formData ){ fetch('./server.php', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
-			body: formData
-		});
+			body: JSON.stringify(body)
+		})
+		.then(response => response.json()); 
+	}
 
 		const hideMessage = () => {
 			setTimeout(() => {
@@ -61,18 +63,22 @@ const formHandler = () => {
 		const forms = document.querySelectorAll('form');
 
 		forms.forEach(form => {
-
 			form.addEventListener('submit', event => {
 				event.preventDefault();
 				const target = event.target,
 					inputs = target.querySelectorAll('input'),
 					formData = new FormData(form);
 
+					formData.forEach((val, key) => {
+						body[key] = val;
+					});
+
 				inputs.forEach(item => {
-					item.removeAttribute('style');
+					item.style = '';
 				});
 
 				form.appendChild(statusMessage);
+				statusMessage.style = `font-size: 2rem; color: white`;
 
 				statusMessage.innerHTML = loadMessage;
 
