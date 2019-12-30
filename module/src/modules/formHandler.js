@@ -49,9 +49,9 @@ const formHandler = () => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(body)
+			body: formData
 		})
-		.then(response => response.json()); 
+		 .then(response => response.json()); 
 	}
 
 		const hideMessage = () => {
@@ -69,9 +69,9 @@ const formHandler = () => {
 					inputs = target.querySelectorAll('input'),
 					formData = new FormData(form);
 
-					formData.forEach((val, key) => {
-						body[key] = val;
-					});
+					// formData.forEach((val, key) => {
+					// 	body[key] = val;
+					// });
 
 				inputs.forEach(item => {
 					item.style = '';
@@ -91,7 +91,7 @@ const formHandler = () => {
 					});
 				} else {
 					postData(formData)
-						.then(response => {
+						.then((response) => {
 							if (response.status !== 200) {
 								throw new Error('status network not 200');
 							}
